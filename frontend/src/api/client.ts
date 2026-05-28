@@ -14,7 +14,7 @@ import type {
 } from '../types';
 
 const client = axios.create({
-  baseURL: 'https://loansenseai.duckdns.org/',
+  baseURL: 'http://34.237.155.20:8000/',
   headers: { 'Content-Type': 'application/json' },
 });
 
