@@ -14,7 +14,7 @@ import type {
 } from '../types';
 
 const client = axios.create({
-  baseURL: 'http://44.193.196.54:8000/',
+  baseURL: 'http://34.237.155.20:8000/',
   headers: { 'Content-Type': 'application/json' },
 });
 
