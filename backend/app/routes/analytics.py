@@ -6,7 +6,7 @@ Analytics routes:
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, case
 from sqlalchemy.sql import extract
 
 import calendar
@@ -73,10 +73,10 @@ def analytics_overview(db: Session = Depends(get_db)):
         monthly_stats = db.query(
             extract('month', LoanApplication.created_at).label('month'),
             func.count(LoanApplication.id).label('total'),
-            func.sum(func.case((LoanApplication.approval_probability >= 50, 1), else_=0)).label('approved'),
-            func.sum(func.case((LoanApplication.risk_category == 'Low', 1), else_=0)).label('low'),
-            func.sum(func.case((LoanApplication.risk_category == 'Medium', 1), else_=0)).label('medium'),
-            func.sum(func.case((LoanApplication.risk_category == 'High', 1), else_=0)).label('high')
+            func.sum(case([(LoanApplication.approval_probability >= 50, 1)], else_=0)).label('approved'),
+            func.sum(case([(LoanApplication.risk_category == 'Low', 1)], else_=0)).label('low'),
+            func.sum(case([(LoanApplication.risk_category == 'Medium', 1)], else_=0)).label('medium'),
+            func.sum(case([(LoanApplication.risk_category == 'High', 1)], else_=0)).label('high')
         ).group_by(extract('month', LoanApplication.created_at)).all()
 
         approval_history = []
