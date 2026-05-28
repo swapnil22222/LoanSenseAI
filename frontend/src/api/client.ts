@@ -26,7 +26,7 @@ export async function checkEligibility(data: EligibilityInput): Promise<Eligibil
     risk_level: bd.risk_category || 'Medium',
     recommended_emi: bd.recommended_emi,
     suggested_amount: bd.suggested_loan_amount,
-    debt_to_income: bd.features ? bd.features.debt_ratio * 100 : 0,
+    debt_to_income: bd.features ? bd.features.debt_ratio : 0,
     max_affordable_emi: bd.recommended_emi * 1.2, // fallback approximation
   };
 }
